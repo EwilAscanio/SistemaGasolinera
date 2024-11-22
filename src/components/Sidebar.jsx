@@ -2,6 +2,7 @@ import Button from "./Button";
 
 import { MdDashboardCustomize } from "react-icons/md";
 import { FaUsers, FaUserShield, FaHorseHead, FaCarSide } from "react-icons/fa6";
+import { MdPointOfSale } from "react-icons/md";
 import { TbReportAnalytics } from "react-icons/tb";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
@@ -69,9 +70,9 @@ const Sidebar = async () => {
           Procesos
         </h2>
         <Button
-          url={"/auth/dashboard/animal"}
-          content="Ficha Animal"
-          icono={<FaHorseHead />}
+          url={"/auth/dashboard/venta"}
+          content="Venta Gasolina"
+          icono={<MdPointOfSale />}
         />
       </div>
     </>

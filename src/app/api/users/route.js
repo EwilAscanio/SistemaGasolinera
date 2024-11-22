@@ -31,26 +31,8 @@ export const POST = async (req) => {
     const data = await req.json();
     console.log("POST API", data);
     console.log("POST API", data.password_usr);
+
     let { name_usr, login_usr, email_usr, password_usr, id_rol } = data;
-
-    // Check if user exists
-    const existingUser = await conn.query(
-      "SELECT * FROM users WHERE login_usr = ? OR email_usr = ?",
-      [login_usr, email_usr]
-    );
-
-    if (existingUser.length > 0) {
-      return NextResponse.json(
-        {
-          message:
-            "El nombre de usuario o correo electrónico ya está en uso. Por favor, elige uno diferente.",
-        },
-        {
-          status: 409,
-        }
-      );
-    }
-
     password_usr = await bcrypt.hash(password_usr, 5);
 
     console.log(name_usr, login_usr, email_usr, password_usr, id_rol);

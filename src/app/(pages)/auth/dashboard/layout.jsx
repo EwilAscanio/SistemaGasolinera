@@ -13,6 +13,7 @@ export default function Layout({ children }) {
           <div className="flex items-center justify-center h-[100%]">
             <Image
               src={Logo}
+              alt="Logo"
               width={150}
               height={300}
               className="mt-16 object-contain rounded-full shadow-2xl"

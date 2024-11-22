@@ -22,12 +22,8 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
+  // Función para manejar el envío del formulario
   const onSubmit = handleSubmit(async (data) => {
-    // try {
-    //   Verificar si el usuario existe
-    //   const userExists = await axios.get(`${process.env.NEXTAUTH_URL}/api/users?email=${data.email}`)
-    // } catch (error) { }
-
     console.log("DATA", data);
     const res = await axios.post(`${process.env.NEXTAUTH_URL}/api/users`, data);
 
@@ -209,8 +205,6 @@ const Register = () => {
             Crear Cuenta
             <LuArrowRight className="ml-2" size={20} />
           </button>
-
-          {/* <input type="submit" /> */}
         </form>
       </div>
     </div>

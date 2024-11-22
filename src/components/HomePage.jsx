@@ -13,10 +13,9 @@ const HomePage = () => {
         <Image
           src={ImageHome}
           alt="Fondo"
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-          priority
+          width={1920} // Ancho original de la imagen
+          height={1080} // Altura original de la imagen
+          className="object-cover w-full h-full"
         />
         <div className="absolute inset-0 bg-black opacity-50"></div>
       </div>

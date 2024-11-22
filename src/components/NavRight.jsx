@@ -48,6 +48,7 @@ const NavRight = async () => {
           width={30}
           height={10}
           alt="Bandera Venezuela"
+          className="w-auto h-auto"
         ></Image>
 
         <p>Español</p>

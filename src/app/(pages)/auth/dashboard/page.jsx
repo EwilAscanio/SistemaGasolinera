@@ -9,14 +9,15 @@ const data = {
   labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio"],
   datasets: [
     {
-      label: "Animales",
+      label: "Gasoil (Litros)",
+
       data: [40, 45, 50, 55, 60, 65, 70],
       borderColor: "rgb(75, 192, 192)",
       backgroundColor: "rgba(59, 130, 246)",
       fill: true,
     },
     {
-      label: "Litros de Leche",
+      label: "Gasolina (Litros)",
       data: [10, 15, 20, 25, 30, 35, 40],
       borderColor: "rgb(54, 162, 235)",
       backgroundColor: "rgba(76, 175, 80)",
@@ -40,7 +41,7 @@ const options = {
     },
     title: {
       display: true,
-      text: "Estadísticas de Ganadería",
+      text: "Estadísticas de Gasolina",
     },
   },
 };
@@ -72,7 +73,7 @@ const page = () => {
         <div className="flex max-w-sm gap-5 bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-blue-200 mx-auto mt-10 justify-between ">
           <div className="p-5">
             <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900">
-              Total Animales
+              Total Litros Gasoil
             </h5>
             <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 ">
               40.685
@@ -88,7 +89,7 @@ const page = () => {
         <div className="flex max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-blue-200 mx-auto mt-10 justify-between">
           <div className="p-5">
             <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900">
-              Total Litros de Leche
+              Total Litros de Gasolina
             </h5>
             <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 ">
               10.293
