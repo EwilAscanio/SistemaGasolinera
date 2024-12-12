@@ -1,10 +1,10 @@
 import axios from "axios";
 import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const loadCars = async () => {
-  const { data } = await axios.get("http://localhost:3000/api/cars");
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/cars`
+  );
 
   return data;
 };
@@ -22,7 +22,7 @@ const ListCarsPage = async () => {
         </h1>
 
         <Link
-          href={"/auth/dashboard/cars/registercars"}
+          href={`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard/cars/registercars`}
           className="bg-blue-500 text-white py-1 px-3 rounded hover:underline absolute right-0 top-0 mr-4 mt-4"
         >
           Crear Vehiculo

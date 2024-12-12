@@ -38,7 +38,9 @@ const UpdatePage = async () => {
                   {user.name_usr} <br /> {user.login_usr}
                 </h4>
               </div>
-              <p class="text-blue-400 font-semibold mt-2.5">{user.email_usr}</p>
+              <p className="text-blue-400 font-semibold mt-2.5">
+                {user.email_usr}
+              </p>
             </section>
           </section>
         </Link>

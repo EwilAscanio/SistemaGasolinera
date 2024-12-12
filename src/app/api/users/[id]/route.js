@@ -52,7 +52,14 @@ export const DELETE = async (req, { params }) => {
       );
     }
 
-    return NextResponse.json("Usuario eliminado exitosamente");
+    return NextResponse.json(
+      {
+        message: "Usuario eliminado exitosamente",
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     return NextResponse(
       {

@@ -9,58 +9,85 @@ import {
   LuLock,
   LuArrowRight,
 } from "react-icons/lu";
+
 import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
 
 const UpdateUsers = ({ params }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    name_usr: "",
+    login_usr: "",
+    email_usr: "",
+    password_usr: "",
+    id_rol: "",
+  });
+
+  console.log("PARAMS", params);
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name_usr: "",
+      login_usr: "",
+      email_usr: "",
+      password_usr: "",
+      id_rol: "",
+    },
+  });
+
+  const onSubmit = handleSubmit(async (data) => {
+    console.log("DATA UPDATE", data);
+    const res = await axios.put(
+      `http://localhost:3000/api/update/${params.id}`,
+      data
+    );
+
+    console.log("RES UPDATE", res);
+
+    if (res.status == 200) {
+      Swal.fire({
+        title: "Registrar Usuario",
+        text: "El usuario ha sido registrado exitosamente.",
+        icon: "success",
+        confirmButtonColor: "#3085d6",
+      });
+      router.push("/auth/dashboard");
+      router.refresh();
+    } else if (res.status === 400) {
+      // Error de validación del servidor
+      alert(
+        "Los datos ingresados no son válidos. Por favor, verifica los campos."
+      );
+    } else if (res.status === 500) {
+      // Error interno del servidor
+      alert("Ocurrió un error en el servidor. Intenta nuevamente más tarde.");
+    } else {
+      // Otro error
+      console.log("RES", data);
+      alert(
+        "Ocurrió un error inesperado. Por favor, contacta al administrador."
+      );
+    }
+  });
 
   useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/update/${params.id}`)
-      .then((res) => {
-        setUser(res.data);
-        reset(res.data);
-      })
-      .catch((error) => console.error("Error fetching user data:", error));
-  }, [params.id, reset]);
-
-  const onSubmit = async (data) => {
-    try {
-      const res = await axios.put(
-        `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/update/${params.id}`,
-        data
-      );
-      if (res.status === 200) {
-        Swal.fire({
-          title: "Actualizar Usuario",
-          text: "El usuario ha sido actualizado exitosamente.",
-          icon: "success",
-          confirmButtonColor: "#3085d6",
-        });
-        router.push(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard`);
-      } else {
-        alert("Ocurrió un error al actualizar el usuario.");
-      }
-    } catch (error) {
-      alert("Ocurrió un error en el servidor. Intenta nuevamente más tarde.");
-    }
-  };
-
-  if (!user) {
-    return <div>Cargando...</div>; // Mensaje de carga
-  }
+    axios.get(`http://localhost:3000/api/update/${params.id}`).then((res) => {
+      setUser({
+        name_usr: res.data.name_usr,
+        login_usr: res.data.login_usr,
+        email_usr: res.data.email_usr,
+        password_usr: res.data.password_usr,
+        id_rol: res.data.id_rol,
+      });
+    });
+  }, []);
 
   return (
-    <div className="flex items-center justify-center p-4">
+    <div className="  flex items-center justify-center p-4">
       <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800">
@@ -68,8 +95,8 @@ const UpdateUsers = ({ params }) => {
           </h1>
           <p className="text-gray-600 mt-2">Rellene los datos correctamente</p>
         </div>
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-          {/* Campo nombre */}
+        <form className="space-y-4" onSubmit={onSubmit}>
+          {/* Campo numero 1 del Formulario NOMBRE*/}
           <div className="relative">
             <LuUser
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -80,21 +107,25 @@ const UpdateUsers = ({ params }) => {
               placeholder="Full Name"
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               {...register("name_usr", {
-                required: "Campo requerido",
+                required: {
+                  value: true,
+                  message: "campo requerido",
+                },
                 minLength: {
                   value: 2,
-                  message: "El nombre debe tener mínimo 2 caracteres",
+                  message: "El nombre debe terner minimo 2 caracteres",
                 },
               })}
             />
-            {errors.name_usr && (
+            {/* Manejo de Errores */}
+            {errors.name && (
               <span className="text-red-600 text-sm">
-                {errors.name_usr.message}
+                {errors.name.message}
               </span>
             )}
           </div>
 
-          {/* Campo login */}
+          {/* Campo numero 2 del Formulario LOGIN*/}
           <div className="relative">
             <LuUserCircle
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -105,21 +136,26 @@ const UpdateUsers = ({ params }) => {
               placeholder="Login"
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               {...register("login_usr", {
-                required: "Campo requerido",
+                value: user.login_usr,
+                required: {
+                  value: true,
+                  message: "campo requerido",
+                },
                 minLength: {
                   value: 2,
-                  message: "El login debe tener mínimo 2 caracteres",
+                  message: "El nombre debe terner minimo 2 caracteres",
                 },
               })}
             />
-            {errors.login_usr && (
+            {/* Manejo de Errores */}
+            {errors.name && (
               <span className="text-red-600 text-sm">
-                {errors.login_usr.message}
+                {errors.name.message}
               </span>
             )}
           </div>
 
-          {/* Campo email */}
+          {/* Campo numero 3 del Formulario EMAIL*/}
           <div className="relative">
             <LuMail
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -129,16 +165,23 @@ const UpdateUsers = ({ params }) => {
               type="email"
               placeholder="Email"
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              {...register("email_usr", { required: "Campo requerido" })}
+              {...register("email_usr", {
+                value: user.email_usr,
+                required: {
+                  value: true,
+                  message: "campo requerido",
+                },
+              })}
             />
-            {errors.email_usr && (
+            {/* Manejo de Errores */}
+            {errors.email && (
               <span className="text-red-600 text-sm">
-                {errors.email_usr.message}
+                {errors.email.message}
               </span>
             )}
           </div>
 
-          {/* Campo password */}
+          {/* Campo numero 4 del Formulario PASSWORD*/}
           <div className="relative">
             <LuLock
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -149,27 +192,34 @@ const UpdateUsers = ({ params }) => {
               placeholder="Password"
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               {...register("password_usr", {
-                required: "Campo requerido",
+                value: user.password_usr,
+                required: {
+                  value: true,
+                  message: "campo requerido",
+                },
                 minLength: {
                   value: 6,
-                  message: "La contraseña debe tener mínimo 6 caracteres",
+                  message: "La contraseña debe tener minimo 6 digitos",
                 },
               })}
             />
-            {errors.password_usr && (
+            {/* Manejo de Errores */}
+            {errors.password && (
               <span className="text-red-600 text-sm">
-                {errors.password_usr.message}
+                {errors.password.message}
               </span>
             )}
           </div>
 
-          {/* Campo rol */}
+          {/* Campo numero 5 del Formulario ROL */}
           <div className="relative">
             <select
               className="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
-              {...register("id_rol")}
+              {...register("id_rol", { value: user.id_rol })}
             >
-              <option value="">Rol de Usuario</option>
+              <option value="" className="">
+                Rol de Usuario
+              </option>
               <option value="2">Usuario</option>
               <option value="1">Administrador</option>
             </select>

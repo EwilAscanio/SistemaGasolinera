@@ -14,9 +14,8 @@ export default function Layout({ children }) {
             <Image
               src={Logo}
               alt="Logo"
-              width={150}
-              height={300}
-              className="mt-16 object-contain rounded-full shadow-2xl"
+              className="mt-16 object-contain rounded-full shadow-xl w-auto max-h-36"
+              priority
             ></Image>
           </div>
         </div>
