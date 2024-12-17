@@ -2,15 +2,10 @@ import { NextResponse } from "next/server";
 import { conn } from "@/libs/mariadb";
 
 export const GET = async (req, { params }) => {
-  console.log("Params GET:", params);
   try {
-    console.log("Parámetros recibidos:", params);
-
     const result = await conn.query(`
           SELECT * FROM users INNER JOIN roles ON users.id_rol = roles.id_rol
           WHERE email_usr = "${params.id}"`);
-
-    console.log("Result", result);
 
     if (result.lenght === 0 || result == []) {
       return NextResponse(
@@ -36,8 +31,6 @@ export const GET = async (req, { params }) => {
 };
 
 export const DELETE = async (req, { params }) => {
-  console.log("Params DELETE:", params);
-
   const result = await conn.query(`
           DELETE FROM users WHERE id_usr = "${params.id}"`);
   try {

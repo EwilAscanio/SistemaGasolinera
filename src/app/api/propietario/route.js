@@ -21,7 +21,7 @@ export const GET = async () => {
 export const POST = async (req) => {
   try {
     const data = await req.json();
-    console.log(data);
+
     const {
       cedula_pro,
       name_pro,
@@ -31,8 +31,6 @@ export const POST = async (req) => {
       email_pro,
     } = data;
 
-    console.log("DATA", data);
-
     const result = await conn.query("INSERT INTO propietario set ?", {
       cedula_pro,
       name_pro,
@@ -41,8 +39,6 @@ export const POST = async (req) => {
       telefono_pro,
       email_pro,
     });
-
-    console.log(result);
 
     return NextResponse.json(result);
   } catch (error) {

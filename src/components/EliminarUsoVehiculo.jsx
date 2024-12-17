@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { useCallback } from "react";
 import { LuArrowRight } from "react-icons/lu";
 
-const ButtonDelete = ({ user_id }) => {
+const EliminarUsoVehiculo = ({ id_uso }) => {
   const router = useRouter();
 
   //Utilizo el hook useCallback para evitar que se ejecute la función en cada renderizado
@@ -31,21 +31,21 @@ const ButtonDelete = ({ user_id }) => {
         if (result.isConfirmed) {
           // Eliminar usuario mediante petición a la API
           const resp = await axios.delete(
-            `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/users/${user_id}`
+            `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/cars/usocars/${id_uso}`
           );
 
           if (resp.status === 200) {
             // Mostrar alerta de éxito
             await Swal.fire({
               title: "Eliminado!",
-              text: "El usuario ha sido eliminado",
+              text: "La categoría ha sido eliminada exitosamente",
               icon: "success",
               confirmButtonColor: "#3085d6",
             });
 
             // Redirigir al usuario después de la eliminación
             router.push(
-              `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard/listusers`
+              `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard/usovehiculo`
             );
             router.refresh();
           }
@@ -59,7 +59,7 @@ const ButtonDelete = ({ user_id }) => {
         );
       }
     },
-    [user_id, router]
+    [id_uso, router]
   );
 
   return (
@@ -67,10 +67,10 @@ const ButtonDelete = ({ user_id }) => {
       className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center mt-6"
       onClick={handleDelete}
     >
-      Eliminar Usuario
+      Eliminar Categoria
       <LuArrowRight className="ml-2" size={20} />
     </button>
   );
 };
 
-export default ButtonDelete;
+export default EliminarUsoVehiculo;

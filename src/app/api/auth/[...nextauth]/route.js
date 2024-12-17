@@ -20,15 +20,11 @@ export const authOptions = {
         },
       },
       async authorize(credentials, req) {
-        console.error(credentials);
-        console.log(req);
-
         const userFound = await conn.query(
           `SELECT * FROM users where login_usr="${credentials.login.trim()}"`
         );
         console.error(userFound);
 
-        console.log(userFound[0]);
         if (!userFound && userFound == []) throw new Error("user not found");
 
         const matchPassword = await bcrypt.compare(
@@ -37,7 +33,6 @@ export const authOptions = {
         );
 
         if (!matchPassword) throw new Error("contraseña inválida");
-        console.log(matchPassword);
 
         return {
           name: userFound[0].name_usr,

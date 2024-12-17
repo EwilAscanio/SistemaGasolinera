@@ -11,20 +11,17 @@ import { FaBuilding } from "react-icons/fa";
 import { MdOutlineCarCrash } from "react-icons/md";
 import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
-import { FaBarcode } from "react-icons/fa";
 
-const RegisterCars = () => {
+const ActualizarCars = ({ params }) => {
+  const [vehiculo, setVehiculo] = useState(null);
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
+    reset,
   } = useForm();
-
-  // Estado para controlar si se ha cargado un propietario
-  const [propietarioCargado, setPropietarioCargado] = useState(false);
 
   const [tiposUso, setTiposUso] = useState([]); // Estado para tipos de uso
 
@@ -52,68 +49,30 @@ const RegisterCars = () => {
     cargarTiposUso(); // Cargar tipos de uso al montar el componente
   }, []);
 
-  // Función para realizar la búsqueda del propietario
-  const buscarPropietario = async (codigo) => {
-    if (!codigo) {
-      setPropietarioCargado(false);
-      return;
-    }
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/cars/${params.id}`)
+      .then((res) => {
+        setVehiculo(res.data);
+        reset(res.data);
+      })
+      .catch((error) => console.error("Error fetching user data:", error));
+  }, [params.id, reset]);
 
+  const onSubmit = async (data) => {
     try {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/propietario/${codigo}`
-      );
-      if (res.status === 200) {
-        setPropietarioCargado(true);
-        // Mostrar alerta indicando que el propietario ha sido cargado
-        Swal.fire({
-          title: "Éxito",
-          text: "Propietario cargado exitosamente.",
-          icon: "success",
-          confirmButtonColor: "#3085d6",
-        });
-      }
-    } catch (error) {
-      console.error(error);
-      Swal.fire({
-        title: "Error",
-        text: "Propietario no encontrado.",
-        icon: "error",
-        confirmButtonColor: "#d33",
-      });
-      setPropietarioCargado(false);
-    }
-  };
-
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      console.log("Datos recibidos:", data);
-
-      // Validación de campos requeridos
-      if (data.cedula_pro === "") {
-        Swal.fire({
-          title: "Error",
-          text: "El campo Cedula del Propietario es requerido.",
-          icon: "error",
-          confirmButtonColor: "#d33",
-        });
-        return;
-      }
-
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/cars`,
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/cars/${params.id}`,
         data
       );
-
       if (res.status === 200) {
         Swal.fire({
-          title: "Registrar Vehiculo",
-          text: "El vehiculo ha sido registrado exitosamente.",
+          title: "Actualizar Vehiculo",
+          text: "El vehiculo ha sido actualizado exitosamente.",
           icon: "success",
           confirmButtonColor: "#3085d6",
         });
         router.push(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard`);
-        router.refresh();
       }
     } catch (error) {
       if (error.response) {
@@ -122,15 +81,19 @@ const RegisterCars = () => {
 
         if (error.response.status === 400) {
           Swal.fire({
-            title: "Error al Registrar Vehiculo",
-            text: "Datos Duplicados",
+            title: "Error",
+            text: "Error al Actualizar el Propietario",
             icon: "error",
             confirmButtonColor: "#d33",
           });
         }
       }
     }
-  });
+  };
+
+  if (!vehiculo) {
+    return <div>Cargando...</div>; // Mensaje de carga
+  }
 
   return (
     <>
@@ -139,42 +102,13 @@ const RegisterCars = () => {
         <div className="bg-white rounded-lg shadow-xl p-8 max-w-4xl w-full">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-gray-800">
-              Registrar Vehiculo
+              Actualizar Vehiculo
             </h1>
             <p className="text-gray-600 mt-2">
               Rellene los datos correctamente
             </p>
           </div>
-          <form className="space-y-4" onSubmit={onSubmit}>
-            <div className="flex items-center relative">
-              <FaBarcode
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                size={20}
-              />
-              <input
-                type="text"
-                placeholder="Cedula del propietario"
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                {...register("cedula_pro", {
-                  required: {
-                    value: propietarioCargado,
-                    message: "Campo requerido",
-                  },
-                })}
-              />
-              <button
-                type="button"
-                onClick={() => buscarPropietario(getValues("cedula_pro"))}
-                className="ml-2 bg-blue-500 text-white rounded-lg px-4 py-2 hover:bg-blue-600"
-              >
-                Buscar
-              </button>
-              {errors.codigo_ani && (
-                <span className="text-red-600 text-sm">
-                  {errors.codigo_ani.message}
-                </span>
-              )}
-            </div>
+          <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-2 gap-4">
               {/* Campo numero 1 del Formulario PLACA VEHICULO */}
               <div className="relative">
@@ -186,17 +120,14 @@ const RegisterCars = () => {
                   type="text"
                   placeholder="Placa Vehiculo"
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  disabled
                   {...register("placa_car", {
-                    required: {
-                      value: propietarioCargado,
-                      message: "campo requerido",
-                    },
+                    required: "Campo requerido",
                     minLength: {
                       value: 2,
                       message: "La placa debe terner minimo 2 caracteres",
                     },
                   })}
-                  disabled={!propietarioCargado} // Deshabilita el campo si no hay un propietario cargado
                 />
                 {/* Manejo de Errores */}
                 {errors.placa_car && (
@@ -217,16 +148,12 @@ const RegisterCars = () => {
                   placeholder="Marca Vehiculo"
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   {...register("marca_car", {
-                    required: {
-                      value: propietarioCargado,
-                      message: "campo requerido",
-                    },
+                    required: "campo requerido",
                     minLength: {
                       value: 2,
                       message: "La marca debe terner minimo 2 caracteres",
                     },
                   })}
-                  disabled={!propietarioCargado} // Deshabilita el campo si no hay un propietario cargado
                 />
                 {/* Manejo de Errores */}
                 {errors.marca_car && (
@@ -247,12 +174,8 @@ const RegisterCars = () => {
                   placeholder="Modelo Vehiculo"
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   {...register("modelo_car", {
-                    required: {
-                      value: propietarioCargado,
-                      message: "campo requerido",
-                    },
+                    required: "campo requerido",
                   })}
-                  disabled={!propietarioCargado} // Deshabilita el campo si no hay un propietario cargado
                 />
                 {/* Manejo de Errores */}
                 {errors.modelo_car && (
@@ -273,12 +196,8 @@ const RegisterCars = () => {
                   placeholder="Serial Vehiculo"
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   {...register("serial_car", {
-                    required: {
-                      value: propietarioCargado,
-                      message: "campo requerido",
-                    },
+                    required: "campo requerido",
                   })}
-                  disabled={!propietarioCargado} // Deshabilita el campo si no hay un propietario cargado
                 />
                 {/* Manejo de Errores */}
                 {errors.serial_car && (
@@ -299,12 +218,8 @@ const RegisterCars = () => {
                   placeholder="Color Vehiculo"
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   {...register("color_car", {
-                    required: {
-                      value: propietarioCargado,
-                      message: "campo requerido",
-                    },
+                    required: "campo requerido",
                   })}
-                  disabled={!propietarioCargado} // Deshabilita el campo si no hay un propietario cargado
                 />
                 {/* Manejo de Errores */}
                 {errors.color_car && (
@@ -325,12 +240,8 @@ const RegisterCars = () => {
                   placeholder="Max de Litros"
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   {...register("maxlitros_car", {
-                    required: {
-                      value: propietarioCargado,
-                      message: "campo requerido",
-                    },
+                    required: "campo requerido",
                   })}
-                  disabled={!propietarioCargado} // Deshabilita el campo si no hay un propietario cargado
                 />
                 {/* Manejo de Errores */}
                 {errors.maxlitros_car && (
@@ -345,7 +256,6 @@ const RegisterCars = () => {
                 <select
                   className="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
                   {...register("id_tip")}
-                  disabled={!propietarioCargado} // Deshabilita el campo si no hay un propietario cargado
                 >
                   <option value="">Tipo Vehiculo</option>
                   <option value="1">Sedan</option>
@@ -368,7 +278,6 @@ const RegisterCars = () => {
                 <select
                   className="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
                   {...register("id_uso")}
-                  disabled={!propietarioCargado} // Deshabilita el campo si no hay un propietario cargado
                 >
                   <option value="">Uso del Vehiculo</option>
                   {tiposUso.map((tipoUso) => (
@@ -391,7 +300,7 @@ const RegisterCars = () => {
                 type="submit"
                 className="col-span-2  w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center mt-6"
               >
-                Registrar Vehiculo
+                Actualizar Vehiculo
                 <LuArrowRight className="ml-2" size={20} />
               </button>
             </div>
@@ -402,4 +311,4 @@ const RegisterCars = () => {
   );
 };
 
-export default RegisterCars;
+export default ActualizarCars;

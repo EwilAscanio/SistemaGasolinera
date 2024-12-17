@@ -10,7 +10,6 @@ import {
   LuLock,
   LuArrowRight,
 } from "react-icons/lu";
-import Link from "next/link";
 import Swal from "sweetalert2";
 
 const Register = () => {
@@ -24,10 +23,10 @@ const Register = () => {
 
   // Función para manejar el envío del formulario
   const onSubmit = handleSubmit(async (data) => {
-    console.log("DATA", data);
-    const res = await axios.post(`${process.env.NEXTAUTH_URL}/api/users`, data);
-
-    console.log("RES", res);
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/users`,
+      data
+    );
 
     if (res.status == 200) {
       Swal.fire({
@@ -36,7 +35,7 @@ const Register = () => {
         icon: "success",
         confirmButtonColor: "#3085d6",
       });
-      router.push(`${process.env.NEXTAUTH_URL}/auth/dashboard`);
+      router.push(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard`);
       router.refresh();
     } else if (res.status === 400) {
       // Error de validación del servidor

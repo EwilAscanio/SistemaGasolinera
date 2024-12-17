@@ -9,21 +9,17 @@ import LinkSignout from "./ui/LinkSignout";
 import axios from "axios";
 
 const loadUser = async (email) => {
-  const { data } = await axios.get(`http://localhost:3000/api/users/${email}`);
-  console.log("Data recibida de funcion loadUser:", data);
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/users/${email}`
+  );
+
   return data;
 };
 
 const NavRight = async () => {
   const sesion = await getServerSession(authOptions);
-  console.log("Sesion:", sesion);
-  console.log("Sesion User:", sesion.user);
-
   const user = sesion.user;
-  console.log("Usuario Recibido en Sesion:", user);
-
   const user_rol = await loadUser(user.email);
-  console.log("rol:", user_rol);
 
   return (
     <>

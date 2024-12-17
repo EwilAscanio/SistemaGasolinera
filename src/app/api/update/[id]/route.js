@@ -3,14 +3,9 @@ import bcrypt from "bcrypt";
 import { NextResponse } from "next/server";
 
 export const GET = async (req, { params }) => {
-  console.log("Params GET UPDATE:", params);
   try {
-    console.log("Parámetros recibidos get UPDATE:", params);
-
     const result = await conn.query(`
           SELECT * FROM users WHERE id_usr = "${params.id}"`);
-
-    console.log("Result", result);
 
     if (result.lenght === 0 || result == []) {
       return NextResponse(
@@ -49,8 +44,6 @@ export const PUT = async (req, { params }) => {
         WHERE id_usr = "${params.id}"
       `
     );
-
-    console.log("RESULT", result);
 
     return NextResponse.json(result);
   } catch (error) {

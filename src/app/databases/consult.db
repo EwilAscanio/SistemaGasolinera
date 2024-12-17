@@ -8,7 +8,6 @@ CREATE TABLE `users` (
   `login_usr` varchar(100) NOT NULL,
   `email_usr` varchar(50) NOT NULL,
   `password_usr` varchar(200) NOT NULL,
-  `role_usr` varchar(50) DEFAULT "Usuario",
   `id_rol` integer NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -25,7 +24,7 @@ FOREIGN KEY (`id_rol`) REFERENCES roles(`id_rol`);
 INSERT INTO roles(name_rol) VALUES('Administrador');
 INSERT INTO roles(name_rol) VALUES('Usuario');
 
-INSERT INTO users(name_usr, login_usr, email_usr, password_usr, id_rol) VALUES('Ewil Ascanio', 'ewil', 'ewil@gmail.com', '123456', 1);
+INSERT INTO users(name_usr, login_usr, email_usr, password_usr, id_rol) VALUES('Admin', 'admin', 'admin@gmail.com', '$2b$05$LP1H7j8wtHnMLq7Cl5dq7.2VSuHcvfdxvbBi1e9J5jpzRKyHgXvHe', 1);
 
 CREATE TABLE `cars` (
   `placa_car` varchar(20) PRIMARY KEY unique,
@@ -35,6 +34,7 @@ CREATE TABLE `cars` (
   `color_car` varchar(50) NOT NULL,
   `maxlitros_car` decimal NOT NULL,
   `id_tip` integer NOT NULL,
+  `id_uso` integer NOT NULL,
   `cedula_pro` integer NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -67,4 +67,19 @@ CREATE TABLE `propietario` (
 ALTER TABLE cars
 ADD CONSTRAINT `FK_CarsPropietario`
 FOREIGN KEY (`cedula_pro`) REFERENCES propietario(`cedula_pro`);
+
+CREATE TABLA `usoCars` (
+  `id_uso` integer PRIMARY KEY AUTO_INCREMENT,
+  `name_uso` VARCHAR(50) DEFAULT 'Particular',
+);
+
+ALTER TABLE cars
+ADD CONSTRAINT `FK_CarsUsoCars`
+FOREIGN KEY (`id_uso`) REFERENCES usoCars(`id_uso`);
+
+INSERT INTO usoCars(name_uso) VALUES('Particular')
+INSERT INTO usoCars(name_uso) VALUES('Gubernamental')
+INSERT INTO usoCars(name_uso) VALUES('Empresarial')
+INSERT INTO usoCars(name_uso) VALUES('Otro')
+
 

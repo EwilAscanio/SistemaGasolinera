@@ -1,7 +1,5 @@
 import axios from "axios";
 import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const loadPropietario = async () => {
   const { data } = await axios.get("http://localhost:3000/api/propietario");
@@ -11,8 +9,6 @@ const loadPropietario = async () => {
 
 const ListPropietarioPage = async () => {
   const propietario = await loadPropietario();
-
-  console.log("PROPIETARIOS RECIBIDOS", propietario);
 
   return (
     <>
@@ -54,13 +50,17 @@ const ListPropietarioPage = async () => {
                 <td className="py-2 px-4">{propietario.email_pro}</td>
 
                 <td className="py-2 px-4">
-                  <Link href={``}>
+                  <Link
+                    href={`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard/propietario/actualizarpropietario/${propietario.cedula_pro}`}
+                  >
                     <button className="bg-blue-500 text-white py-1 px-3 rounded mr-2">
                       Actualizar
                     </button>
                   </Link>
 
-                  <Link href={``}>
+                  <Link
+                    href={`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard/propietario/eliminarpropietario/${propietario.cedula_pro}`}
+                  >
                     <button className="bg-red-500 text-white py-1 px-3 rounded">
                       Eliminar
                     </button>

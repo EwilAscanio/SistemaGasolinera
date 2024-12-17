@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
-
 import Logo from "@/images/Logo.jpg";
 
 const Navbar2 = () => {

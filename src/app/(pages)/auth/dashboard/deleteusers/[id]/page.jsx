@@ -10,54 +10,14 @@ import {
 import ButtonDelete from "@/components/ButtonDelete";
 
 const loadUser = async (id) => {
-  console.log("ID", id);
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/update/${id}`
   );
-  console.log("Data recibida LOAD DELETE USERS:", data);
   return data;
 };
 
 const DeleteUsers = async ({ params }) => {
-  console.log("PARAMS DELETEUSERS", params);
-
   const user = await loadUser(params.id);
-
-  /*
-  const onSubmit = handleSubmit(async (data) => {
-    console.log("DATA DELETE", data);
-    const res = await axios.delete(
-      `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/update/${params.id}`,
-      data
-    );
-
-    console.log("RES UPDATE", res);
-
-    if (res.status == 200) {
-      Swal.fire({
-        title: "Registrar Usuario",
-        text: "El usuario ha sido registrado exitosamente.",
-        icon: "success",
-        confirmButtonColor: "#3085d6",
-      });
-      router.push("/auth/dashboard");
-      router.refresh();
-    } else if (res.status === 400) {
-      // Error de validación del servidor
-      alert(
-        "Los datos ingresados no son válidos. Por favor, verifica los campos."
-      );
-    } else if (res.status === 500) {
-      // Error interno del servidor
-      alert("Ocurrió un error en el servidor. Intenta nuevamente más tarde.");
-    } else {
-      // Otro error
-      console.log("RES", data);
-      alert(
-        "Ocurrió un error inesperado. Por favor, contacta al administrador."
-      );
-    }
-  }); */
 
   return (
     <div className="  flex items-center justify-center p-4">
@@ -77,6 +37,7 @@ const DeleteUsers = async ({ params }) => {
               type="text"
               placeholder="Full Name"
               defaultValue={user.name_usr}
+              disabled
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -91,6 +52,7 @@ const DeleteUsers = async ({ params }) => {
               type="text"
               placeholder="Login"
               defaultValue={user.login_usr}
+              disabled
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -105,6 +67,7 @@ const DeleteUsers = async ({ params }) => {
               type="email"
               placeholder="Email"
               defaultValue={user.email_usr}
+              disabled
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -119,6 +82,7 @@ const DeleteUsers = async ({ params }) => {
               type="password"
               placeholder="Password"
               defaultValue={user.password_usr}
+              disabled
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -128,6 +92,7 @@ const DeleteUsers = async ({ params }) => {
             <select
               className="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
               defaultValue={user.id_rol}
+              disabled
             >
               <option value="" className="">
                 Rol de Usuario

@@ -12,8 +12,6 @@ const loadCars = async () => {
 const ListCarsPage = async () => {
   const cars = await loadCars();
 
-  console.log("VEHICULOS RECIBIDOS RECIBIDOS", cars);
-
   return (
     <>
       <div className="relative">
@@ -52,13 +50,17 @@ const ListCarsPage = async () => {
                 <td className="py-2 px-4">{car.color_car}</td>
                 <td className="py-2 px-4">{car.maxlitros_car}</td>
                 <td className="py-2 px-4">
-                  <Link href={``}>
+                  <Link
+                    href={`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard/cars/actualizarcars/${car.placa_car}`}
+                  >
                     <button className="bg-blue-500 text-white py-1 px-3 rounded mr-2">
                       Actualizar
                     </button>
                   </Link>
 
-                  <Link href={``}>
+                  <Link
+                    href={`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard/cars/eliminarcars/${car.placa_car}`}
+                  >
                     <button className="bg-red-500 text-white py-1 px-3 rounded">
                       Eliminar
                     </button>

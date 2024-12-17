@@ -19,8 +19,6 @@ const Login = () => {
 
   //Funcion a utilizar el formulario
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
-
     // Aqui se envian los datos para el acceso, es decir los campos
     //que va a verificar el credencials.
     const resp = await signIn("credentials", {
@@ -28,8 +26,6 @@ const Login = () => {
       password: data.password_usr,
       redirect: false,
     });
-
-    console.log(resp);
 
     if (resp.error) {
       Swal.fire({
@@ -40,7 +36,7 @@ const Login = () => {
       });
       setError(resp.error);
     } else {
-      router.push("http://localhost:3000/auth/dashboard");
+      router.push(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard`);
       router.refresh();
     }
   });
@@ -120,7 +116,7 @@ const Login = () => {
             <LuArrowRight className="ml-2" size={20} />
           </button>
         </form>
-        <div className="mt-6 flex justify-between items-center">
+        {/* <div className="mt-6 flex justify-between items-center">
           <Link href="#" className="text-sm text-blue-600 hover:underline">
             Olvido de Contraseña?
           </Link>
@@ -130,7 +126,7 @@ const Login = () => {
           >
             Crear Cuenta
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -2,8 +2,6 @@ import Link from "next/link";
 import React from "react";
 
 const Button = ({ content, icono, url }) => {
-  console.log(url);
-  console.log(typeof url);
   return (
     <Link
       href={`${url}`}

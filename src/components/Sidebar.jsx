@@ -10,7 +10,6 @@ import axios from "axios";
 
 const loadUser = async (email) => {
   const { data } = await axios.get(`http://localhost:3000/api/users/${email}`);
-  console.log("Data recibida de funcion loadUser:", data);
   return data;
 };
 const Sidebar = async () => {
@@ -46,6 +45,12 @@ const Sidebar = async () => {
             <Button
               url={"/auth/dashboard/cars"}
               content="Vehiculos"
+              icono={<FaCarSide />}
+            />
+
+            <Button
+              url={"/auth/dashboard/usovehiculo"}
+              content="Uso Vehiculos"
               icono={<FaCarSide />}
             />
           </>
