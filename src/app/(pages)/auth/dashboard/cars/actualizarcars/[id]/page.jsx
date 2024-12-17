@@ -288,6 +288,7 @@ const ActualizarCars = ({ params }) => {
                   <option value="2">Camioneta</option>
                   <option value="3">Camion</option>
                   <option value="4">Gandola</option>
+                  <option value="5">Moto</option>
                 </select>
                 <MdOutlineCarCrash
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"

@@ -76,7 +76,7 @@ Notas:
 - Agregar datos a la tabla de Uso Vehiculos
 - Agregar la columna de codigo vehiculo
 
-CREATE TABLA `usoCars` (
+CREATE TABLE `usoCars` (
   `id_uso` integer PRIMARY KEY AUTO_INCREMENT,
   `name_uso` VARCHAR(50) DEFAULT 'Particular',
 );
@@ -93,3 +93,5 @@ INSERT INTO usoCars(name_uso) VALUES('Otro')
 
 ALTER TABLE cars
 ADD COLUMN `codigo_car` VARCHAR(50) DEFAULT 0;
+
+modificaion hasta 17-12

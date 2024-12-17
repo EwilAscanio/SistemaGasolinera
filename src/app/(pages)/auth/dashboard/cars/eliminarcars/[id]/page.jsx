@@ -177,6 +177,7 @@ const PageEliminarCars = async ({ params }) => {
                   <option value="2">Camioneta</option>
                   <option value="3">Camion</option>
                   <option value="4">Gandola</option>
+                  <option value="5">Moto</option>
                 </select>
 
                 <MdOutlineCarCrash
