@@ -7,20 +7,13 @@ const loadUsers = async () => {
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/users`
   );
-  console.log("DATA RECIBIDA GET", data);
   return data;
 };
 
 const UsersPage = async () => {
   const users = await loadUsers();
   const sesion = await getServerSession(authOptions);
-  console.log("Sesion:", sesion);
-  console.log("Sesion User:", sesion.user);
-  console.log("Sesion User:", sesion.user.name);
-  console.log("Sesion User:", sesion.user.email);
 
-  console.log("USUARIOS RECIBIDOS", users);
-  let rol = "";
   return (
     <>
       <div className="relative">

@@ -23,7 +23,6 @@ export const authOptions = {
         const userFound = await conn.query(
           `SELECT * FROM users where login_usr="${credentials.login.trim()}"`
         );
-        console.error(userFound);
 
         if (!userFound && userFound == []) throw new Error("user not found");
 

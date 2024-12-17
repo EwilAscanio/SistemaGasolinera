@@ -36,6 +36,7 @@ export const PUT = async (req, { params }) => {
   try {
     const {
       placa_car,
+      codigo_car,
       marca_car,
       modelo_car,
       serial_car,
@@ -48,11 +49,12 @@ export const PUT = async (req, { params }) => {
     const result = await conn.query(
       `
     UPDATE cars
-    SET placa_car = ?, marca_car = ?, modelo_car = ?, serial_car = ?, color_car = ?, maxlitros_car = ?, id_tip = ?, id_uso = ?
+    SET placa_car = ?, codigo_car = ?, marca_car = ?, modelo_car = ?, serial_car = ?, color_car = ?, maxlitros_car = ?, id_tip = ?, id_uso = ?
     WHERE placa_car = ?
   `,
       [
         placa_car,
+        codigo_car,
         marca_car,
         modelo_car,
         serial_car,

@@ -25,6 +25,7 @@ export const POST = async (req) => {
     const {
       cedula_pro,
       placa_car,
+      codigo_car,
       marca_car,
       modelo_car,
       serial_car,
@@ -50,6 +51,7 @@ export const POST = async (req) => {
     const result = await conn.query("INSERT INTO cars set ?", {
       cedula_pro,
       placa_car,
+      codigo_car,
       marca_car,
       modelo_car,
       serial_car,

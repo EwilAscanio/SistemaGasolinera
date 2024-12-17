@@ -7,21 +7,17 @@ import {
   LuLock,
   LuArrowRight,
 } from "react-icons/lu";
-import ButtonDelete from "@/components/ButtonDelete";
 import EliminarPropietario from "@/components/EliminarPropietario";
 
 const loadPropietario = async (id) => {
-  console.log("ID", id);
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/propietario/${id}`
   );
-  console.log("Data recibida LOAD DELETE USERS:", data);
+
   return data;
 };
 
 const DeletePropietario = async ({ params }) => {
-  console.log("PARAMS DELETEUSERS", params);
-
   const propietario = await loadPropietario(params.id);
 
   return (

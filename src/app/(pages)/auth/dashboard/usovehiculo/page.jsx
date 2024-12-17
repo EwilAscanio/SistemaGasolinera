@@ -7,7 +7,7 @@ const loadUsoVehiculo = async () => {
   const { data } = await axios.get(
     `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/cars/usocars`
   );
-  console.log("DATA RECIBIDA GET", data);
+
   return data;
 };
 

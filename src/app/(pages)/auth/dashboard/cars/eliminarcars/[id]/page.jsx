@@ -5,7 +5,7 @@ import { IoIosColorPalette, IoIosBarcode, IoLogoModelS } from "react-icons/io";
 import { CiCreditCard1 } from "react-icons/ci";
 import { SiRimacautomobili } from "react-icons/si";
 import { FaGasPump } from "react-icons/fa6";
-import { FaBuilding } from "react-icons/fa";
+import { FaBuilding, FaCode } from "react-icons/fa";
 import { MdOutlineCarCrash } from "react-icons/md";
 import EliminarVehiculo from "@/components/EliminarVehiculo";
 
@@ -75,7 +75,22 @@ const PageEliminarCars = async ({ params }) => {
                 />
               </div>
 
-              {/* Campo numero 2 del Formulario MARCA VEHICULO */}
+              {/* Campo numero 2 del Formulario PLACA VEHICULO */}
+              <div className="relative">
+                <FaCode
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                  size={20}
+                />
+                <input
+                  type="text"
+                  placeholder="Codigo Vehiculo"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  defaultValue={vehiculo.codigo_car}
+                  disabled
+                />
+              </div>
+
+              {/* Campo numero 3 del Formulario MARCA VEHICULO */}
               <div className="relative">
                 <SiRimacautomobili
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -90,7 +105,7 @@ const PageEliminarCars = async ({ params }) => {
                 />
               </div>
 
-              {/* Campo numero 3 del Formulario MODELO VEHICULO */}
+              {/* Campo numero 4 del Formulario MODELO VEHICULO */}
               <div className="relative">
                 <IoLogoModelS
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -105,7 +120,7 @@ const PageEliminarCars = async ({ params }) => {
                 />
               </div>
 
-              {/* Campo numero 4 del Formulario SERIAL VEHICULO */}
+              {/* Campo numero 5 del Formulario SERIAL VEHICULO */}
               <div className="relative">
                 <IoIosBarcode
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -120,7 +135,7 @@ const PageEliminarCars = async ({ params }) => {
                 />
               </div>
 
-              {/* Campo numero 5 del Formulario COLOR VEHICULO */}
+              {/* Campo numero 6 del Formulario COLOR VEHICULO */}
               <div className="relative">
                 <IoIosColorPalette
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -135,7 +150,7 @@ const PageEliminarCars = async ({ params }) => {
                 />
               </div>
 
-              {/* Campo numero 6 del Formulario MAX LITROS */}
+              {/* Campo numero 7 del Formulario MAX LITROS */}
               <div className="relative">
                 <FaGasPump
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -150,7 +165,7 @@ const PageEliminarCars = async ({ params }) => {
                 />
               </div>
 
-              {/* Campo numero 7 del Formulario TIPO VEHICULO */}
+              {/* Campo numero 8 del Formulario TIPO VEHICULO */}
               <div className="relative">
                 <select
                   className="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
@@ -174,7 +189,7 @@ const PageEliminarCars = async ({ params }) => {
                 />
               </div>
 
-              {/* Campo numero 8 del Formulario USO VEHICULO */}
+              {/* Campo numero 9 del Formulario USO VEHICULO */}
               <div className="relative">
                 <select
                   className="text-gray-400 w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"

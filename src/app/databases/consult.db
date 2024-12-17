@@ -36,6 +36,7 @@ CREATE TABLE `cars` (
   `id_tip` integer NOT NULL,
   `id_uso` integer NOT NULL,
   `cedula_pro` integer NOT NULL,
+  `codigo_car` VARCHAR(50) DEFAULT 0
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -68,6 +69,13 @@ ALTER TABLE cars
 ADD CONSTRAINT `FK_CarsPropietario`
 FOREIGN KEY (`cedula_pro`) REFERENCES propietario(`cedula_pro`);
 
+Notas:
+
+- Crear tabla de Uso Vehiculos
+- Crear sus relaciones
+- Agregar datos a la tabla de Uso Vehiculos
+- Agregar la columna de codigo vehiculo
+
 CREATE TABLA `usoCars` (
   `id_uso` integer PRIMARY KEY AUTO_INCREMENT,
   `name_uso` VARCHAR(50) DEFAULT 'Particular',
@@ -83,3 +91,5 @@ INSERT INTO usoCars(name_uso) VALUES('Empresarial')
 INSERT INTO usoCars(name_uso) VALUES('Otro')
 
 
+ALTER TABLE cars
+ADD COLUMN `codigo_car` VARCHAR(50) DEFAULT 0;
