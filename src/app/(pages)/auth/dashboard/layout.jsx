@@ -14,7 +14,7 @@ export default function Layout({ children }) {
             <Image
               src={Logo}
               alt="Logo"
-              className="mt-16 object-contain rounded-full shadow-xl w-auto max-h-36"
+              className="mt-16 object-contain rounded-full shadow-xl w-auto max-h-28"
               priority
             ></Image>
           </div>
@@ -36,7 +36,7 @@ export default function Layout({ children }) {
         <div className="col-span-2 row-span-6 row-start-2 bg-slate-100 flex flex-col items-center justify-center">
           {/* Inicio del Children */}
           <div className="relative bg-slate-100 w-[100%] h-[100%] rounded-3xl">
-            <main className="absolute w-full">{children}</main>
+            <main className="absolute w-full max-h-full">{children}</main>
           </div>
         </div>
       </div>

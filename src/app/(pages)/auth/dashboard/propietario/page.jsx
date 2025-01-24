@@ -2,7 +2,9 @@ import axios from "axios";
 import Link from "next/link";
 
 const loadPropietario = async () => {
-  const { data } = await axios.get("http://localhost:3000/api/propietario");
+  const { data } = await axios.get(
+    `${NEXT_PUBLIC_NEXTAUTH_URL}/api/propietario`
+  );
 
   return data;
 };

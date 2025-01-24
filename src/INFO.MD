@@ -25,3 +25,6 @@ npm install react-hook-form
 11.- Instalar bcrypt
 
 12.- Instalar chart.js
+
+13.- Instalar React Pdf
+npm install @react-pdf/renderer --save

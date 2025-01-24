@@ -110,7 +110,9 @@ const RegisterCars = () => {
           icon: "success",
           confirmButtonColor: "#3085d6",
         });
-        router.push(`${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard`);
+        router.push(
+          `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/auth/dashboard/cars`
+        );
         router.refresh();
       }
     } catch (error) {

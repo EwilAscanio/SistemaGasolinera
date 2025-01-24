@@ -1,15 +1,17 @@
 import Button from "./Button";
-
 import { MdDashboardCustomize } from "react-icons/md";
-import { FaUsers, FaUserShield, FaHorseHead, FaCarSide } from "react-icons/fa6";
+import { FaUsers, FaCarSide } from "react-icons/fa6";
 import { MdPointOfSale } from "react-icons/md";
-import { TbReportAnalytics } from "react-icons/tb";
+import { TbReportAnalytics, TbReportSearch } from "react-icons/tb";
+import { LuWarehouse } from "react-icons/lu";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import axios from "axios";
 
 const loadUser = async (email) => {
-  const { data } = await axios.get(`http://localhost:3000/api/users/${email}`);
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/users/${email}`
+  );
   return data;
 };
 const Sidebar = async () => {
@@ -51,7 +53,7 @@ const Sidebar = async () => {
             <Button
               url={"/auth/dashboard/usovehiculo"}
               content="Uso Vehiculos"
-              icono={<FaCarSide />}
+              icono={<LuWarehouse />}
             />
           </>
         ) : (
@@ -78,6 +80,12 @@ const Sidebar = async () => {
           url={"/auth/dashboard/venta"}
           content="Venta Gasolina"
           icono={<MdPointOfSale />}
+        />
+
+        <Button
+          url={"/auth/dashboard/reportes"}
+          content="Reportes"
+          icono={<TbReportSearch />}
         />
       </div>
     </>

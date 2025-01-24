@@ -95,3 +95,53 @@ ALTER TABLE cars
 ADD COLUMN `codigo_car` VARCHAR(50) DEFAULT 0;
 
 modificaion hasta 17-12
+
+Estructura Inner Join para crear una lista de vehiculos con los datos del propietario
+
+SELECT * FROM cars INNER JOIN propietario ON cars.cedula_pro = propietario.cedula_pro;
+
+SELECT * FROM cars INNER JOIN propietario ON cars.cedula_pro = propietario.cedula_pro where propietario.cedula_pro='16501654'
+
+CREATE TABLE `estacionservicio` (
+  `id_estacion` integer PRIMARY KEY AUTO_INCREMENT,
+  `nombreestacion` VARCHAR(70),
+);
+
+
+
+CREATE TABLE `ventascombustible` (
+  `id_ticket` integer PRIMARY KEY AUTO_INCREMENT,
+  `id_estacion` integer NOT null,
+  `cedula_pro` integer NOT NULL,
+  `placa_car` varchar(20) NOT NULL,
+  `litrosdespachados` integer NOT NULL,
+  `id_uso` integer NOT NULL,
+  `fechadespacho` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, '45Y78', 40, 2);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'AAB-213', 40, 1);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'AAB-214', 40, 2);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'AAB-215', 40, 3);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'CFJ-32P', 40, 4);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'DDD-331', 40, 5);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'DDD-332', 20, 1);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'DDD-333', 40, 2);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'EFJ-32E', 20, 3);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'EFJ-32P', 40, 4);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'EFJ-32Q', 40, 1);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'EFJ-32R', 20, 2);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'EFJ-32V', 40, 5);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'EFJ-32Y', 40, 1);
+INSERT INTO estacionservicio(nombreestacion) VALUES('Estacion 2');
+
+Agregar a la tabla ventascombustible una columna `id_uso` integer PRIMARY KEY AUTO_INCREMENT,
+esto se realiza para relacionar la tabla usoCars con ventascombustible
+
+ALTER TABLE ventascombustible
+ADD COLUMN `id_uso` integer AFTER `litrosdespachados`;
+
+Relacion de la tabla
+ALTER TABLE ventascombustible
+ADD CONSTRAINT `FK_VentaUsoCars`
+FOREIGN KEY (`id_uso`) REFERENCES usoCars(`id_uso`);

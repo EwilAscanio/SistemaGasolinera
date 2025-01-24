@@ -2,6 +2,7 @@ import { conn } from "@/libs/mariadb";
 import { NextResponse } from "next/server";
 
 export const GET = async (req, { params }) => {
+  console.log("params GET REPORTES", params);
   try {
     const result = await conn.query(`
           SELECT * FROM propietario WHERE cedula_pro = "${params.id}"`);
