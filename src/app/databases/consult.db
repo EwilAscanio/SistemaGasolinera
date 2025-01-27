@@ -115,33 +115,43 @@ CREATE TABLE `ventascombustible` (
   `cedula_pro` integer NOT NULL,
   `placa_car` varchar(20) NOT NULL,
   `litrosdespachados` integer NOT NULL,
+  `id_tip` integer NOT NULL,
   `id_uso` integer NOT NULL,
   `fechadespacho` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, '45Y78', 40, 2);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'AAB-213', 40, 1);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'AAB-214', 40, 2);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'AAB-215', 40, 3);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'CFJ-32P', 40, 4);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'DDD-331', 40, 5);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'DDD-332', 20, 1);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'DDD-333', 40, 2);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'EFJ-32E', 20, 3);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'EFJ-32P', 40, 4);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'EFJ-32Q', 40, 1);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'EFJ-32R', 20, 2);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'EFJ-32V', 40, 5);
-INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_uso) VALUES(1, 16501654, 'EFJ-32Y', 40, 1);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, '45Y78', 40, 1, 2);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'AAB-213', 40, 2, 1);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'AAB-214', 40, 3, 2);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'AAB-215', 40, 4, 3);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'CFJ-32P', 40, 5, 4);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'DDD-331', 40, 1, 5);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'DDD-332', 20, 2, 1);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'DDD-333', 40, 3, 2);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'EFJ-32E', 20, 4, 3);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'EFJ-32P', 40, 4, 4);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'EFJ-32Q', 40, 5, 2);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'EFJ-32R', 20, 2, 3);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'EFJ-32V', 40, 5, 4);
+INSERT INTO ventascombustible(id_estacion, cedula_pro, placa_car, litrosdespachados, id_tip, id_uso) VALUES(1, 16501654, 'EFJ-32Y', 40, 1, 2 );s
 INSERT INTO estacionservicio(nombreestacion) VALUES('Estacion 2');
 
 Agregar a la tabla ventascombustible una columna `id_uso` integer PRIMARY KEY AUTO_INCREMENT,
 esto se realiza para relacionar la tabla usoCars con ventascombustible
 
 ALTER TABLE ventascombustible
+ADD COLUMN `id_tip` integer AFTER `litrosdespachados`;
+
+
+ALTER TABLE ventascombustible
 ADD COLUMN `id_uso` integer AFTER `litrosdespachados`;
 
 Relacion de la tabla
+
 ALTER TABLE ventascombustible
 ADD CONSTRAINT `FK_VentaUsoCars`
 FOREIGN KEY (`id_uso`) REFERENCES usoCars(`id_uso`);
+
+ALTER TABLE ventascombustible
+ADD CONSTRAINT `FK_VentaTipoCars`
+FOREIGN KEY (`id_tip`) REFERENCES tipoCars(`id_tip`);

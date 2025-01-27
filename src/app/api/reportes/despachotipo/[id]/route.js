@@ -8,12 +8,10 @@ export const GET = async (request) => {
     const { searchParams } = new URL(request.url);
     const fechaInicial = searchParams.get("fechaInicial");
     const fechaFinal = searchParams.get("fechaFinal");
-    const id_uso = searchParams.get("id_uso");
-
-    console.log("Fechas:", fechaInicial, fechaFinal);
+    const id_tip = searchParams.get("id_tip");
 
     // Validar que las fechas estén presentes
-    if (!fechaInicial || !fechaFinal || !id_uso) {
+    if (!fechaInicial || !fechaFinal || !id_tip) {
       return NextResponse.json(
         {
           message: "Todos los datos son requeridas.",
@@ -31,13 +29,14 @@ export const GET = async (request) => {
     // Consulta SQL con filtro por fechas
     const result = await conn.query(
       `
-     SELECT * FROM ventascombustible JOIN usoCars ON ventascombustible.id_uso = usoCars.id_uso
-where ventascombustible.fechadespacho >= ? and ventascombustible.fechadespacho <= ? and usoCars.id_uso = ?
-      
+        SELECT * FROM ventascombustible JOIN tipoCars ON ventascombustible.id_tip = tipoCars.id_tip
+        where ventascombustible.fechadespacho >= ? and ventascombustible.fechadespacho <= ?
+        and tipoCars.id_tip = ?;
       `,
-      [fechaInicio, fechaFin, id_uso] // Pasar las fechas como parámetros
+      [fechaInicio, fechaFin, id_tip] // Pasar los parámetros
     );
 
+    // Validar si no se encontraron registros
     if (result.length === 0) {
       return NextResponse.json(
         {
