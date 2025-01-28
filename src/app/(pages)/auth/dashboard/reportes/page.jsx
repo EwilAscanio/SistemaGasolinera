@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { CiCreditCard1 } from "react-icons/ci";
-import { SiRimacautomobili } from "react-icons/si";
 import Swal from "sweetalert2";
 import axios from "axios";
 
@@ -16,8 +15,10 @@ const PageReports = () => {
   const [selectedUso, setSelectedUso] = useState(""); // Estado para almacenar el tipo de uso seleccionado
   const [tipoVehiculo, setTipoVehiculo] = useState([]); // Estado para almacenar el tipo de vehículo
   const [selectedTipo, setSelectedTipo] = useState(""); // Estado para almacenar el tipo de vehículo seleccionado
-  const [fechaInicialTipo, setFechaInicialTipo] = useState("");
-  const [fechaFinalTipo, setFechaFinalTipo] = useState("");
+  const [fechaInicialTipo, setFechaInicialTipo] = useState(""); // Estado para almacenar la fecha inicial del tipo de vehículo
+  const [fechaFinalTipo, setFechaFinalTipo] = useState(""); // Estado para almacenar la fecha final del tipo de vehículo
+  const [fechaInicialVenta, setFechaInicialVenta] = useState(""); // Estado para almacenar la fecha inicial de la venta de gasolina
+  const [fechaFinalVenta, setFechaFinalVenta] = useState(""); // Estado para almacenar la fecha final de la venta de gasolina
 
   const handleSubmitVehiculo = (e) => {
     e.preventDefault();
@@ -56,9 +57,6 @@ const PageReports = () => {
 
   const handleSubmitTipoVehiculo = (e) => {
     e.preventDefault();
-    console.log("Fecha Inicial:", fechaInicialTipo);
-    console.log("Fecha Final:", fechaFinalTipo);
-    console.log("Tipo de Vehiculo:", selectedTipo);
 
     // Verificar si el Select de Uso de Vehiculo está vacío
     if (selectedTipo === "") {
@@ -76,6 +74,22 @@ const PageReports = () => {
     // Redirigir a la página de despacho con las fechas
     router.push(
       `reportes/despachotipo/despacho?fechaInicial=${fechaInicialTipo}&fechaFinal=${fechaFinalTipo}&id_tip=${selectedTipo}`
+    );
+  };
+
+  const handleSubmitVentaGasolina = (e) => {
+    e.preventDefault();
+
+    // Verificar que las fechas estén presentes
+    if (!fechaInicialVenta || !fechaFinalVenta) {
+      setError("Por favor, ingrese ambas fechas.");
+      return;
+    }
+
+    setError(""); // Limpiar el error
+    // Redirigir a la página de despacho con las fechas
+    router.push(
+      `reportes/venta/despacho?fechaInicial=${fechaInicialVenta}&fechaFinal=${fechaFinalVenta}`
     );
   };
 
@@ -259,17 +273,34 @@ const PageReports = () => {
                 </button>
               </div>
 
-              {/* Otros campos del formulario */}
-              <div className="relative">
-                <SiRimacautomobili
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                  size={20}
-                />
-                <input
-                  type="text"
-                  placeholder="Marca Vehiculo"
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+              {/* Reporte Número 4 Despacho de Gasolina */}
+              <div className="relative border border-gray-300 rounded-lg p-4">
+                <p className="text-center text-gray-600 mb-4">
+                  Mostrar Despacho de Gasolina.
+                </p>
+
+                <div className="mt-2 grid grid-cols-2 gap-4">
+                  <input
+                    type="date"
+                    placeholder="Fecha Inicial"
+                    className="w-40 pl-4 pr-2 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={fechaInicialVenta}
+                    onChange={(e) => setFechaInicialVenta(e.target.value)}
+                  />
+                  <input
+                    type="date"
+                    placeholder="Fecha Final"
+                    className=" w-40 pl-4 pr-2 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    value={fechaFinalVenta}
+                    onChange={(e) => setFechaFinalVenta(e.target.value)}
+                  />
+                </div>
+                <button
+                  className="col-span-2 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center mt-2"
+                  onClick={handleSubmitVentaGasolina}
+                >
+                  Mostrar Reporte
+                </button>
               </div>
             </div>
           </form>

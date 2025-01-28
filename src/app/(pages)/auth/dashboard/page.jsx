@@ -59,19 +59,13 @@ const Page = () => {
         const res = await axios.get(
           `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/venta/`
         );
-        console.log("Data Report Desc:", res.data.ventasPorMes);
-        console.log("Data Report Desc:", res.data.ventasPorMes[0].mes);
-        console.log("Data Report:", res.data.totalLitros);
 
         setTotalLitros(res.data.totalLitros);
-        // setMeses(
-        //   res.data.ventasporMes[0].map((item) => mesesGrafico[item.mes - 1])
-        // );
         setMeses(
           res.data.ventasPorMes.map((item) => mesesGrafico[item.mes - 1])
         );
 
-        // Supongamos que res.data.ventas contiene un array de litros por mes
+        // res.data.ventasporMes contiene un array de litros por mes.
         const litrosPorMes = res.data.ventasPorMes.map(
           (item) => item.totalLitros
         );
@@ -102,7 +96,7 @@ const Page = () => {
             <div className="flex max-w-sm gap-5 bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-blue-200 mx-auto mt-10 justify-between">
               <div className="p-5">
                 <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900">
-                  Total Litros Gasoil
+                  Cantidad de Vehiculos
                 </h5>
                 <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900">
                   1.293
@@ -117,7 +111,7 @@ const Page = () => {
             <div className="flex max-w-sm bg-white border border-gray-200 rounded-lg shadow-lg hover:bg-blue-200 mx-auto mt-10 justify-between">
               <div className="p-5">
                 <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900">
-                  Total Litros de Gasolina
+                  Total Gasolina Despachada
                 </h5>
                 <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900">
                   {totalLitros}

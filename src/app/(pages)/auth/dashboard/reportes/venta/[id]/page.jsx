@@ -3,29 +3,30 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import ReportePDF from "@/components/reportes/DespachoUsoVehiculo"; // Asegúrate de importar el componente PDF
+import ReportePDF from "@/components/reportes/VentaGasolina"; // Asegúrate de importar el componente PDF
 
-const DespachoUso = () => {
+const VentaGasolina = () => {
   const router = useRouter();
   const [despacho, setDespacho] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [totalLitros, setTotalLitros] = useState(0);
 
   useEffect(() => {
     const { search } = window.location;
     const params = new URLSearchParams(search);
     const fechaInicial = params.get("fechaInicial");
     const fechaFinal = params.get("fechaFinal");
-    const id_uso = params.get("id_uso");
 
     const fetchDespacho = async () => {
-      if (fechaInicial && fechaFinal && id_uso) {
+      if (fechaInicial && fechaFinal) {
         try {
           const res = await axios.get(
-            `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/reportes/despachouso/despacho?fechaInicial=${fechaInicial}&fechaFinal=${fechaFinal}&id_uso=${id_uso}`
+            `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}/api/reportes/venta/despacho?fechaInicial=${fechaInicial}&fechaFinal=${fechaFinal}`
           );
 
-          setDespacho(res.data); // Almacena el array de vehículos
+          setDespacho(res.data.registros); // Almacena el array de vehículos
+          setTotalLitros(res.data.totalLitros); // Almacena el total de litros despachados
         } catch (error) {
           console.error("Error al Buscar el Despacho:", error);
           setError("Error al cargar los datos de los Despachos.");
@@ -56,13 +57,13 @@ const DespachoUso = () => {
     <>
       <div className="relative flex flex-col justify-between items-center">
         <h1 className="text-center text-3xl font-bold mb-4 mt-4">
-          Reporte de Despacho por Tipo de Vehículo
+          Reporte de Venta de Gasolina
         </h1>
 
         <PDFDownloadLink
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          document={<ReportePDF despacho={despacho} />}
-          fileName="reporte_tipovehiculo.pdf"
+          document={<ReportePDF despacho={despacho} litros={totalLitros} />}
+          fileName="Reporte_VentaGasolina.pdf"
         >
           {({ loading }) =>
             loading ? "Cargando documento..." : "Descargar Reporte"
@@ -79,7 +80,6 @@ const DespachoUso = () => {
               <th className="py-2 px-4 bg-gray-200">Placa</th>
               <th className="py-2 px-4 bg-gray-200">Litros Despach.</th>
               <th className="py-2 px-4 bg-gray-200">Fecha Despach.</th>
-              <th className="py-2 px-4 bg-gray-200">Uso Vehiculo</th>
             </tr>
           </thead>
           <tbody>
@@ -93,7 +93,6 @@ const DespachoUso = () => {
                   <td className="py-2 px-4">
                     {formatDate(item.fechadespacho)}
                   </td>
-                  <td className="py-2 px-4">{item.name_uso}</td>
                 </tr>
               ))
             ) : (
@@ -105,9 +104,12 @@ const DespachoUso = () => {
             )}
           </tbody>
         </table>
+        <div className="w-full text-center border mt-4 p-2">
+          Total de Litros Despachados : {totalLitros}
+        </div>
       </div>
     </>
   );
 };
 
-export default DespachoUso;
+export default VentaGasolina;

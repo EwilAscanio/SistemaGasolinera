@@ -9,14 +9,17 @@ export default function Layout({ children }) {
       {/* Inicio de Layout */}
       <div className="grid grid-cols-[20%,1fr,1fr] grid-rows-[10%,1fr] gap-4 bg-white h-[100vh]">
         {/* Inicio del Grid Fila 1 */}
-        <div className="">
-          <div className="flex items-center justify-center h-[100%]">
+        <div className="relative flex items-center justify-center">
+          <div className="relative flex items-center justify-center h-[100%] min-h-[200px">
+            {/* Cambiado a relative */}
             <Image
               src={Logo}
               alt="Logo"
               className="mt-16 object-contain rounded-full shadow-xl w-auto max-h-28"
               priority
-            ></Image>
+              width={100} // Ajusta el ancho
+              height={100} // Ajusta la altura
+            />
           </div>
         </div>
         {/* Inicio de la Fila numero 2 */}

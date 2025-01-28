@@ -8,10 +8,9 @@ export const GET = async (request) => {
     const { searchParams } = new URL(request.url);
     const fechaInicial = searchParams.get("fechaInicial");
     const fechaFinal = searchParams.get("fechaFinal");
-    const id_uso = searchParams.get("id_uso");
 
     // Validar que las fechas estén presentes
-    if (!fechaInicial || !fechaFinal || !id_uso) {
+    if (!fechaInicial || !fechaFinal) {
       return NextResponse.json(
         {
           message: "Todos los datos son requeridas.",
@@ -29,14 +28,12 @@ export const GET = async (request) => {
     // Consulta SQL con filtro por fechas
     const result = await conn.query(
       `
-     SELECT * FROM ventascombustible JOIN usoCars ON ventascombustible.id_uso = usoCars.id_uso
-where ventascombustible.fechadespacho >= ? and ventascombustible.fechadespacho <= ? and usoCars.id_uso = ?
-      
+        SELECT * FROM ventascombustible where fechadespacho >= ? and fechadespacho <= ?;
       `,
-      [fechaInicio, fechaFin, id_uso] // Pasar las fechas como parámetros
+      [fechaInicio, fechaFin] // Pasar los parámetros
     );
 
-    // Validar si no hay registros
+    // Validar si no se encontraron registros
     if (result.length === 0) {
       return NextResponse.json(
         {
@@ -48,7 +45,22 @@ where ventascombustible.fechadespacho >= ? and ventascombustible.fechadespacho <
         }
       );
     }
-    return NextResponse.json(result);
+
+    //Consulta para obtener el total de Litros despachados.
+    const totalResult = await conn.query(
+      `
+        SELECT sum(litrosdespachados) as totalLitros FROM ventascombustible where fechadespacho >= ? and fechadespacho <= ?;
+      `,
+      [fechaInicio, fechaFin] // Pasar los parámetros
+    );
+
+    //Obtener el total de Litros despachados
+    const totalLitros = totalResult[0].totalLitros || 0;
+
+    return NextResponse.json({
+      registros: result,
+      totalLitros: totalLitros,
+    });
   } catch (error) {
     console.error("Error en la API:", error); // Log del error
     return NextResponse.json(
